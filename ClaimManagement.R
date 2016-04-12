@@ -33,4 +33,26 @@ test <- xgb.DMatrix(data = data.matrix(test))
 #Set seed to allow reproducibility of the benchmark value
 set.seed(2016)
 
+#Model building
+model1 <- xgboost(data = train, max.depth = 5, eta = 0.5, nround = 30, eval.metric = "logloss", objective = "binary:logistic")
 
+######### Model Analysis #########
+
+# Finding important variables from the xgboost trained model
+importance_model <- xgb.importance(model = model1, feature_names = train_names)
+
+# Print the top 20 best picked variables submitted to xgboost
+print(importance_model, nrows = 20)
+
+######### Predict data on testing set ########
+
+# predict values of the trained model on test data
+predictedValues <- predict(model1, newdata = test)
+
+######### prediction: creating submission file ########
+
+# Applies the probabilities found previously from the prediction to the submission sample
+sample_submission$PredictedProb <- predictedValues
+
+# export to CSV the sample submission for submitting to Kaggle
+write.csv(sample_submission, file = "../inputdata_github/sample_submission1.csv", row.names = FALSE)
