@@ -54,5 +54,5 @@ predictedValues <- predict(model1, newdata = test)
 # Applies the probabilities found previously from the prediction to the submission sample
 sample_submission$PredictedProb <- predictedValues
 
-# export to CSV the sample submission for submitting to Kaggle
+# export to CSV for submitting to Kaggle
 write.csv(sample_submission, file = "../inputdata_github/sample_submission1.csv", row.names = FALSE)
